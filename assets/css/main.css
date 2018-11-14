@@ -69,3 +69,11 @@ body {
     padding: 0;
     pointer-events: none;
 }
+
+.toolbarCameraRotation {
+    background-image: url(../img/emblem_camera.png);
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
