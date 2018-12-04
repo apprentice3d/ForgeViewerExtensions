@@ -1,0 +1,92 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Demo</title>
+
+    <!-- Autodesk Forge libs-->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.min.css" type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.min.js"></script>
+
+    <!-- custom libs-->
+    <script src="./assets/js/extensions/TransformTool.js"></script>
+
+
+</head>
+<body>
+
+    <!-- The Viewer will be instantiated here -->
+    <div id="MyViewerDiv"></div>
+
+</body>
+    <!-- Developer JS -->
+<script>
+
+    const divID = 'MyViewerDiv';
+    const documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6amNpX2RlbW8vYXNzZW1ibHkuemlw';
+    const tokenFetchingUrl = "https://fg9ysg979c.execute-api.ca-central-1.amazonaws.com/prod/";
+
+    let extensionArray = [];
+
+    let viewerApp = new Autodesk.Viewing.ViewingApplication(divID);
+    let viewer = null;
+
+    let options = {
+        env: 'AutodeskProduction',
+        getAccessToken: (onGetAccessToken) => {
+            fetch(tokenFetchingUrl)
+                .then(response => response.json())
+                .then(data => {
+
+                    let accessToken = data["access_token"];
+                    let expireTimeSeconds = data["expires_in"];
+                    onGetAccessToken(accessToken, expireTimeSeconds);
+                })
+
+
+        },
+        useADP: false,
+    };
+
+    let config3d = {
+        extensions: extensionArray
+    };
+
+
+    Autodesk.Viewing.Initializer(options, function onInitialized() {
+        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
+        viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+    });
+
+    // Init after the viewer is ready
+    function onDocumentLoadSuccess() {
+        let viewables = viewerApp.bubble.search({
+            'type': 'geometry'
+        });
+        if (viewables.length === 0) {
+            console.error('Document contains no viewables.');
+            return;
+        }
+        // Choose any of the available viewables
+        viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+
+    }
+
+    function onDocumentLoadFailure(viewerErrorCode) {
+        console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+    }
+
+    function onItemLoadSuccess(active_viewer, item) {
+        console.log('Document loaded successfully');
+        viewer = active_viewer;
+
+        viewer.loadExtension('Autodesk.ADN.Viewing.Extension.TransformTool');
+    }
+    function onItemLoadFail(errorCode) {
+        console.error('onItemLoadFail() - errorCode:' + errorCode);
+    }
+
+</script>
+
+</html>
+
+

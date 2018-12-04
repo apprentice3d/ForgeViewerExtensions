@@ -7,6 +7,7 @@ Collection of self-contained Forge Viewer extensions:
 
 ![](./assets/img/cameraRotationEx.gif)
 
+---------------------
 
 [transformationExplorerExtension](./assets/js/extensions/transformationExplorer.js) -
 shows transformation data (position) of clicked component: 

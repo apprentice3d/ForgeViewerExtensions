@@ -45,9 +45,6 @@ class TurnTableExtension extends Autodesk.Viewing.Extension {
 
         let started = false;
 
-
-
-
         let rotateCamera = () => {
             if (started) {
                 requestAnimationFrame(rotateCamera);
