@@ -26,3 +26,9 @@ dynamically the Forge Viewer window:
 ![](./assets/img/viewerResizer.png)
 
 ---------------------
+
+[TransformTool](./assets/js/extensions/TransformTool.js) - illustrates how to attach a gizmo to a component and use it to move the component:
+
+[live here](https://apprentice3d.github.io/ForgeViewerExtensions/translateExt.html)
+
+![](./assets/img/objectTranslate.gif)
