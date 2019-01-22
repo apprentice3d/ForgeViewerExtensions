@@ -137,6 +137,7 @@ class MarkUp3DExtension extends Autodesk.Viewing.Extension {
         // hide rooms bodies, to not hinder markup icon clicking
         this.viewer.hide(370);
         this.viewer.disableSelection(true);
+        this.viewer.disableHighlight(true);
 
 
         return true;
