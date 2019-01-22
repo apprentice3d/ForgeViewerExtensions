@@ -1,6 +1,15 @@
 # ForgeViewerExtensions
 Collection of self-contained Forge Viewer extensions:
 
+
+[markupExtension](./assets/js/extensions/markupExt.js) - shows how to add 3d markups to a model.
+
+[live here](https://apprentice3d.github.io/ForgeViewerExtensions/markerExt.html)
+
+![](./assets/img/markerExt.gif)
+
+---------------------
+
 [cameraRotationExtension](./assets/js/extensions/turnTableExt.js) - shows how to add a button to start and stop camera rotation around the model:
 
 [live here](https://apprentice3d.github.io/ForgeViewerExtensions/cameraRotation.html)
