@@ -202,6 +202,12 @@ class MarkUp3DExtension extends Autodesk.Viewing.Extension {
         if (!this.pointCloud) return;
         let x = (event.clientX / window.innerWidth) * 2 - 1;
         let y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Use this approach if the above one fails - usually for non-fullscreen viewer.
+        // let w_pos = this.viewer.canvas.getBoundingClientRect();
+        // let x = ((event.clientX - w_pos.x) / this.viewer.canvas.width) * 2 - 1;
+        // let y = -((event.clientY - w_pos.y)/ this.viewer.canvas.height) * 2 + 1;
+
         let vector = new THREE.Vector3(x, y, 0.5).unproject(this.camera);
         this.raycaster.set(this.camera.position, vector.sub(this.camera.position).normalize());
         let nodes = this.raycaster.intersectObject(this.pointCloud);
