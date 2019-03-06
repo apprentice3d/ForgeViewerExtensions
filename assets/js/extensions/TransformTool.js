@@ -427,11 +427,19 @@ Autodesk.ADN.Viewing.Extension.TransformTool =  function (viewer, options) {
 
         viewer.toolController.registerTool(_self.tool);
 
-        viewer.toolController.activateTool(_self.tool.getName());
+        viewer.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT,
+            this.getObjectTree);
 
         console.log('Autodesk.ADN.Viewing.Extension.TransformTool loaded');
 
         return true;
+    };
+
+
+    _self.getObjectTree = function() {
+        viewer.removeEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT,
+            this.getObjectTree);
+        viewer.toolController.activateTool(_self.tool.getName());
     };
 
     ///////////////////////////////////////////////////////

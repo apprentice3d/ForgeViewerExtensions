@@ -1,101 +1,35 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <title>Forge-Extensions-Example</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no"/>
     <meta charset="UTF-8">
-    <title>Translation Demo</title>
 
-    <!-- Autodesk Forge libs-->
-    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.min.css" type="text/css">
-    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.min.js"></script>
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.min.css?v=v6.*"
+          type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.min.js?v=v6.*"></script>
 
-    <!-- custom libs-->
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <!-- Developer JS -->
+    <!--<script src="./assets/js/extensions/TransformControls.js"></script>-->
     <script src="./assets/js/extensions/TransformTool.js"></script>
+    <script src="./assets/js/app.js"></script>
 
 
 </head>
+
 <body>
-
-    <!-- The Viewer will be instantiated here -->
-    <div id="MyViewerDiv"></div>
-
+<div id="MyViewerDiv"></div>
 </body>
-    <!-- Developer JS -->
 <script>
-
-    const divID = 'MyViewerDiv';
-    const documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6amNpX2RlbW8vYXNzZW1ibHkuemlw';
-    const tokenFetchingUrl = "https://23x7d70l12.execute-api.ca-central-1.amazonaws.com/dev";
-
-    let extensionArray = [];
-
-    let viewerApp = new Autodesk.Viewing.ViewingApplication(divID);
-    let viewer = null;
-
-    let options = {
-        env: 'AutodeskProduction',
-        getAccessToken: (onGetAccessToken) => {
-            fetch(tokenFetchingUrl)
-                .then(response => response.json())
-                .then(data => {
-
-                    let accessToken = data["access_token"];
-                    let expireTimeSeconds = data["expires_in"];
-                    onGetAccessToken(accessToken, expireTimeSeconds);
-                })
-
-
-        },
-        useADP: false,
-    };
-
-    let config3d = {
-        extensions: extensionArray
-    };
-
-
-    Autodesk.Viewing.Initializer(options, function onInitialized() {
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-        viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
-    });
-
-    // Init after the viewer is ready
-    function onDocumentLoadSuccess() {
-        let viewables = viewerApp.bubble.search({
-            'type': 'geometry'
-        });
-        if (viewables.length === 0) {
-            console.error('Document contains no viewables.');
-            return;
-        }
-        // Choose any of the available viewables
-        viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
-
-    }
-
-    function onDocumentLoadFailure(viewerErrorCode) {
-        console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
-    }
-
-    function onItemLoadSuccess(active_viewer, item) {
-        console.log('Document loaded successfully');
-        viewer = active_viewer;
-
-        viewer.loadExtension('Autodesk.ADN.Viewing.Extension.TransformTool');
-        
-        // add grid
-        let grid = new THREE.GridHelper(200, 10);
-        // grid.position.y = -29;
-        grid.position.y = 3;
-        grid.material.opacity = 0.5;
-        grid.material.transparent = true;
-        viewer.impl.scene.add(grid);
-        viewer.impl.sceneUpdated(true);
-    }
-    function onItemLoadFail(errorCode) {
-        console.error('onItemLoadFail() - errorCode:' + errorCode);
-    }
-
+    let divId = "MyViewerDiv";
+    let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6amNpX2RlbW8vYXNzZW1ibHkuemlw";
+    let tokenFetchingUrl = "https://23x7d70l12.execute-api.ca-central-1.amazonaws.com/dev";
+    let extensionArray = ['Autodesk.ADN.Viewing.Extension.TransformTool'];
+    setupViewer(divId, documentId, tokenFetchingUrl, extensionArray);
 </script>
-
 </html>
-
-
