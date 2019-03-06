@@ -15,7 +15,7 @@
     <!-- Developer CSS -->
     <link rel="stylesheet" href="./assets/css/main.css"/>
     <!-- Developer JS -->
-    <!--<script src="./assets/js/extensions/TransformControls.js"></script>-->
+    <script src="./assets/js/extensions/gridExt.js"></script>
     <script src="./assets/js/extensions/TransformTool.js"></script>
     <script src="./assets/js/app.js"></script>
 
@@ -29,7 +29,7 @@
     let divId = "MyViewerDiv";
     let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6amNpX2RlbW8vYXNzZW1ibHkuemlw";
     let tokenFetchingUrl = "https://23x7d70l12.execute-api.ca-central-1.amazonaws.com/dev";
-    let extensionArray = ['Autodesk.ADN.Viewing.Extension.TransformTool'];
+    let extensionArray = ['Autodesk.ADN.Viewing.Extension.TransformTool', 'GridExtension'];
     setupViewer(divId, documentId, tokenFetchingUrl, extensionArray);
 </script>
 </html>
