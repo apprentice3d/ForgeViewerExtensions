@@ -1,10 +1,7 @@
 
-let dbg_viewerApp = null;
+let viewer = null;
 
 function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
-
-    let viewerApp = new Autodesk.Viewing.ViewingApplication(divId);
-    dbg_viewerApp = viewerApp;
 
     let options = {
         env: 'AutodeskProduction',
@@ -17,47 +14,24 @@ function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
                     let expireTimeSeconds = data["expires_in"];
                     onGetAccessToken(accessToken, expireTimeSeconds);
                 })
-
-
-        },
-        useADP: false,
-    };
-
-    let config3d = {
-        extensions: extensionArray
-    };
-
-
-    Autodesk.Viewing.Initializer(options, function onInitialized() {
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-        viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
-    });
-
-    // Init after the viewer is ready
-    function onDocumentLoadSuccess() {
-        let viewables = viewerApp.bubble.search({
-            'type': 'geometry'
-        });
-        if (viewables.length === 0) {
-            console.error('Document contains no viewables.');
-            return;
         }
-        // Choose any of the available viewables
-        viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+    };
 
-    }
+    var config3d = {extensions: exrtensionArray};
+    Autodesk.Viewing.Initializer(options, () => {
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById(divId),config3d);
+        viewer.start();
+        Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+      });
 
-    function onDocumentLoadFailure(viewerErrorCode) {
+      function onDocumentLoadSuccess(doc) {
+        var viewables = doc.getRoot().getDefaultGeometry();
+        viewer.loadDocumentNode(doc, viewables).then(i => {
+          // documented loaded, any action?
+        });
+      }
+      
+      function onDocumentLoadFailure(viewerErrorCode) {
         console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
-    }
-
-    function onItemLoadSuccess(active_viewer, item) {
-        console.log('Document loaded successfully');
-    }
-    function onItemLoadFail(errorCode) {
-        console.error('onItemLoadFail() - errorCode:' + errorCode);
-    }
-
-
-    return viewerApp.getCurrentViewer();
+      }
 }
