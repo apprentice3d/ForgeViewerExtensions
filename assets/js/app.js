@@ -20,7 +20,11 @@ function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
     var config3d = {extensions: exrtensionArray};
     Autodesk.Viewing.Initializer(options, () => {
         viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById(divId),config3d);
-        viewer.start();
+        viewer.start(null, null, null, null, {
+          webglInitParams: {
+            useWebGL2: false
+          }
+        });
         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
       });
 

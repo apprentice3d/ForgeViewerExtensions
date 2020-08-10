@@ -258,6 +258,8 @@ class MarkUp3DExtension extends Autodesk.Viewing.Extension {
                     }
                 }
             });
+            const materialManager = this.viewer.impl.matman();
+            materialManager.addMaterial('pointCloudMaterial', material, true /* skip material heuristics */);
             this.pointCloud = new THREE.PointCloud(this.geometry, material);
             this.pointCloud.position.sub(this.offset);
             this.scene.add(this.pointCloud);
