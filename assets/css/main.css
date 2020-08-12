@@ -5,6 +5,11 @@ body {
 
 #MyViewerDiv {
     border: 1px solid #D4D4D4;
+    top: 0;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -77,3 +82,73 @@ body {
     background-position: center;
 }
 
+
+#editorContainer {
+    top: 10px;
+    left: 10px;
+    width: 500px;
+    height: 80vh;
+    resize: vertical;
+    max-height: 80vh;
+}
+
+#editor_area {
+    position: absolute;
+    top: 50px;
+    bottom: 15px;
+    left: 0;
+    right:0;
+    /*max-height: 90vh;*/
+    /*right: 10px;*/
+    /*top: 20%;*/
+    /*height: auto;*/
+    /*width: 30%;*/
+    /*min-width: 400px;*/
+    /*left: 0;*/
+    /*z-index: 99;*/
+    border: black 1px solid;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 50px;
+}
+#editor {
+    /*position: absolute;*/
+    top: 0;
+    /*right: 10px;*/
+    /*bottom: 50px;*/
+    /*min-height: 500px;*/
+    /*height: auto;*/
+    /*width: 400px;*/
+    left: 0;
+    /*z-index: 99;*/
+    border: black 1px solid;
+}
+
+.toolbarButtonEditor {
+    background-image: url(../img/application_xml.png);
+    background-size: 36px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#buttonContainer {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 100%;
+    margin: 0px;
+    padding: 0px;
+    border: black 1px solid;
+    height: 30px;
+}
+
+.codeButton {
+    border: 0;
+    background: none;
+    box-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    border-radius: 0px;
+    border: black 1px solid;
+    height: 80%;
+    font-size: large;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}

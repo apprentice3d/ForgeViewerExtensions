@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Forge-Extensions-Websocket</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no"/>
+    <meta charset="UTF-8">
+
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet"
+          href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css"
+          type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <!-- Developer JS -->
+    <script type="module" src="./assets/js/extensions/websocketExt.js"></script>
+    <script src="./assets/js/app.js"></script>
+
+</head>
+
+<body>
+<div id="MyViewerDiv"></div>
+</body>
+<script>
+    let divId = "MyViewerDiv";
+    // let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6dW5pdmVyc2FsLXJvYm90cy9VUjMuZjNk";
+    let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6M2R0ZWNoLzI3MC0xMzAuc3Rw";
+    let tokenFetchingUrl = "https://23x7d70l12.execute-api.ca-central-1.amazonaws.com/dev/";
+    let extensionArray = ["WebsocketExtension"];
+    setupViewer(divId, documentId, tokenFetchingUrl, extensionArray);
+</script>
+</html>

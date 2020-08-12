@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Forge-Extensions-Example</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no"/>
+    <meta charset="UTF-8">
+
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+
+
+
+</head>
+
+<body>
+<div id="forgeViewer"></div>
+</body>
+
+<!-- Autodesk Forge Viewer files -->
+<link rel="stylesheet"
+      href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css"
+      type="text/css">
+<script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+
+<!-- Developer JS -->
+<script>
+    let viewer;
+    const options = {
+        env: 'AutodeskProduction',
+        getAccessToken: getForgeToken,
+    };
+    Autodesk.Viewing.Initializer(options, () => {
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'));
+        viewer.start();
+        const documentId = 'urn:<YOUR_URN_ID>';
+        Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess);
+    });
+
+    function onDocumentLoadSuccess(doc) {
+        const viewables = doc.getRoot().getDefaultGeometry();
+        viewer.loadDocumentNode(doc, viewables).then(i => {
+        });
+    }
+
+
+
+    function onDocumentLoadFailure(viewerErrorCode) {
+        console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+    }
+
+    function getForgeToken(callback) {
+        fetch('https://fg9ysg979c.execute-api.ca-central-1.amazonaws.com/prod/').then(res => {
+            res.json().then(data => {
+                callback(data.access_token, data.expires_in);
+            });
+        });
+    }
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Editor-Extension</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no"/>
+    <meta charset="UTF-8">
+
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet"
+          href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css"
+          type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <!-- Developer JS -->
+    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/extensions/EditorExt.js"></script>
+
+    <!-- custom libs-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.1/ace.js" integrity="sha256-kCykSp9wgrszaIBZpbagWbvnsHKXo4noDEi6ra6Y43w=" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+<div id="MyViewerDiv"></div>
+</body>
+<script>
+    let divId = "MyViewerDiv";
+    let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6dW5pdmVyc2FsLXJvYm90cy9VUjMuZjNk";
+    let tokenFetchingUrl = "https://fg9ysg979c.execute-api.ca-central-1.amazonaws.com/prod/";
+    let extensionArray = ['EditorExtension'];
+    setupViewer(divId, documentId, tokenFetchingUrl, extensionArray, (viewer) => {
+        viewer.getExtension('EditorExtension').setExtensionParams("CustomGeometryExtension", "/assets/js/extensions/customGeomExt.js");
+        console.log(viewer.getExtension('EditorExtension'));
+        });
+
+</script>
+</html>

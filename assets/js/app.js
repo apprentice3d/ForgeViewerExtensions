@@ -1,10 +1,8 @@
 
-let dbg_viewerApp = null;
 
-function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
+function setupViewer(divId, documentId, tokenFetchingUrl, extensionArray, callback) {
 
-    let viewerApp = new Autodesk.Viewing.ViewingApplication(divId);
-    dbg_viewerApp = viewerApp;
+    let viewer;
 
     let options = {
         env: 'AutodeskProduction',
@@ -28,22 +26,22 @@ function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
     };
 
 
-    Autodesk.Viewing.Initializer(options, function onInitialized() {
-        viewerApp.registerViewer(viewerApp.k3D, Autodesk.Viewing.Private.GuiViewer3D, config3d);
-        viewerApp.loadDocument(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+    Autodesk.Viewing.Initializer(options, () => {
+
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById(divId),config3d);
+        viewer.start();
+        Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
     });
 
     // Init after the viewer is ready
-    function onDocumentLoadSuccess() {
-        let viewables = viewerApp.bubble.search({
-            'type': 'geometry'
+    function onDocumentLoadSuccess(doc) {
+        const viewables = doc.getRoot().getDefaultGeometry();
+        viewer.loadDocumentNode(doc, viewables).then(i => {
+            callback(viewer);
         });
-        if (viewables.length === 0) {
-            console.error('Document contains no viewables.');
-            return;
-        }
-        // Choose any of the available viewables
-        viewerApp.selectItem(viewables[0].data, onItemLoadSuccess, onItemLoadFail);
+
+        // for debugging
+        window.dbg_viewer = viewer;
 
     }
 
@@ -53,11 +51,9 @@ function setupViewer(divId, documentId, tokenFetchingUrl, exrtensionArray) {
 
     function onItemLoadSuccess(active_viewer, item) {
         console.log('Document loaded successfully');
+
     }
     function onItemLoadFail(errorCode) {
         console.error('onItemLoadFail() - errorCode:' + errorCode);
     }
-
-
-    return viewerApp.getCurrentViewer();
 }

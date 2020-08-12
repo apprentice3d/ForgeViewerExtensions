@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>MaterialChanger</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=no"/>
+    <meta charset="UTF-8">
+
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet"
+          href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css"
+          type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <!-- Developer JS -->
+    <script src="./assets/js/extensions/MaterialChangeExt.js"></script>
+    <script src="./assets/js/app.js"></script>
+
+</head>
+
+<body>
+<div id="MyViewerDiv"></div>
+</body>
+<script>
+    let divId = "MyViewerDiv";
+    // let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6dW5pdmVyc2FsLXJvYm90cy9VUjMuZjNk";
+    // let tokenFetchingUrl = "https://fg9ysg979c.execute-api.ca-central-1.amazonaws.com/prod/";
+
+    let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6Y2xvY2tfcmVwby9HaXJvV2F0Y2hOZXcuZjNk";
+    // let documentId = "urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6ZXhwZXJpbWVudF9yZXBvL1dvb2RNYXQuZjNk";
+    let tokenFetchingUrl = "https://9irt90dm6j.execute-api.us-east-1.amazonaws.com/prod";
+
+    let extensionArray = ["MaterialChangeExtension"];
+    setupViewer(divId, documentId, tokenFetchingUrl, extensionArray);
+</script>
+</html>
