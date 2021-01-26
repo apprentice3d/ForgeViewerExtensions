@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SD226781_Samples</title>
+
+    <!-- Autodesk Forge libs-->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css" type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+
+
+    <!-- Developer CSS -->
+    <link rel="stylesheet" href="./assets/css/main.css"/>
+    <!-- Developer JS -->
+    <script src="./assets/js/extensions/MaterialExt.js"></script>
+
+
+</head>
+<body>
+    <!-- The Viewer will be instantiated here -->
+    <div id="MyViewerDiv"></div>
+
+</body>
+    <!-- Developer JS -->
+<script>
+
+    const divID = 'MyViewerDiv';
+    const documentId = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmlhZ2FyYS1wb2MvQk9mZmljZV9uZXdfUm9vbXMubndk';
+    const tokenFetchingUrl = "https://9irt90dm6j.execute-api.us-east-1.amazonaws.com/prod";
+
+    var viewer;
+    var options = {
+        env: 'AutodeskProduction',
+        api: 'derivativeV2',  // for models uploaded to EMEA change this option to 'derivativeV2_EU'
+        getAccessToken: (onGetAccessToken) => {
+            fetch(tokenFetchingUrl)
+                .then(response => response.json())
+                .then(data => {
+                    let accessToken = data["access_token"];
+                    let expireTimeSeconds = data["expires_in"];
+                    onGetAccessToken(accessToken, expireTimeSeconds);
+                })
+        }
+    };
+
+    Autodesk.Viewing.Initializer(options, function() {
+
+        var htmlDiv = document.getElementById(divID);
+        viewer = new Autodesk.Viewing.GuiViewer3D(htmlDiv);
+        var startedCode = viewer.start();
+        if (startedCode > 0) {
+            console.error('Failed to create a Viewer: WebGL not supported.');
+            return;
+        }
+
+        Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+
+        function onDocumentLoadSuccess(viewerDocument) {
+            var defaultModel = viewerDocument.getRoot().getDefaultGeometry();
+            viewer.loadDocumentNode(viewerDocument, defaultModel);
+            viewer.loadExtension('MaterialExtension')
+        }
+
+        function onDocumentLoadFailure() {
+            console.error('Failed fetching Forge manifest');
+        }
+
+        console.log('Initialization complete, loading a model next...');
+
+    });
+
+
+
+
+
+</script>
+
+</html>
+
+
