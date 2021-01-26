@@ -47,7 +47,7 @@ dynamically the Forge Viewer window:
 [customMaterialExtension](./assets/js/extensions/MaterialExt.js) - illustrates how to create
 and add custom material to model's component:
 
-[live here](https://apprentice3d.github.io/ForgeViewerExtensions/matTest.html)
+[live here](https://apprentice3d.github.io/ForgeViewerExtensions/matTest)
 
 ![](./assets/img/matTest.png)
 
